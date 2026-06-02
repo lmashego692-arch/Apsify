@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apsify</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --secondary: #0f172a;
+            --success: #10b981;
+            --danger: #ef4444;
+            --background: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 850px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .subject-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 40px;
+            gap: 15px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background-color: #fff;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        select:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        button {
+            background-color: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: var(--primary);
+        }
+
+        .btn-secondary {
+            background-color: #64748b;
+        }
+        .btn-secondary:hover {
+            background-color: #475569;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            padding: 8px 12px;
+        }
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-box h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+
+        .stat-box p {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .uni-meta {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary-light);
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+
+        .uni-meta p {
+            margin-bottom: 5px;
+        }
+
+        .requirements-list {
+            margin-top: 20px;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        .requirement-item .status-icon {
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .status-msg {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .status-success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-fail {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .footer-note {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #64748b;
+            border: 1px dashed var(--border);
+        }
+
+        .footer-note a {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-note a:hover {
+            text-decoration: underline;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .info-text {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Apsify</h1>
+        <p>Calculate universal indices and check faculty-specific rule sets dynamically</p>
+    </header>
+
+    <div class="grid">
+        <div class="card">
+            <h2>1. Academic Subject Grid</h2>
+            <p class="info-text">Select your matric subjects and standard percentage marks (0-100%). Advanced subjects are automatically filtered out of core calculations.</p>
+            
+            <div id="subject-container">
+                </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button type="button" onclick="addSubjectRow()">+ Add Subject</button>
+                <button type="button" class="btn-secondary" onclick="calculateScores()">Calculate Base Scores</button>
+            </div>
+
+            <h2 style="margin-top: 35px;">2. General Reference Indices</h2>
+            <div class="dashboard">
+                <div class="stat-box">
+                    <h3>Unweighted APS</h3>
+                    <p id="gen-aps">0</p>
+                </div>
+                <div class="stat-box">
+                    <h3>General Average</h3>
+                    <p id="gen-avg">0%</p>
+                </div>
+            </div>
+            <p class="info-text" style="text-align: center; margin-top: -5px;">*Note: Universal indices are generic references. Specific institutions apply separate weighting rules.</p>
+        </div>
+
+        <div class="card">
+            <h2>3. Institutional & Programmatic Filters</h2>
+            
+            <div class="form-group">
+                <label for="uni-select">Target University</label>
+                <select id="uni-select" onchange="handleUniChange()">
+                    <option value="">-- Select Institution --</option>
+                    <option value="UWC">University of the Western Cape (UWC) ✅</option>
+                    <option value="SU">Stellenbosch University (SU) ✅</option>
+                    <option value="UP">University of Pretoria (UP) ✅</option>
+                    <option value="RU">Rhodes University (RU) ✅</option>
+                    <option value="Wits">University of the Witwatersrand (Wits) ✅</option>
+                    <option value="UJ">University of Johannesburg (UJ) ✅</option>
+                    <option value="NWU">North-West University (NWU) ✅</option>
+                    <option value="UCT">University of Cape Town (UCT) ✅</option>
+                </select>
+            </div>
+
+            <div id="uni-metadata-box" class="uni-meta" style="display: none;">
+                </div>
+
+            <div class="form-group" style="margin-top: 15px;">
+                <label for="faculty-select">Target Faculty</label>
+                <select id="faculty-select" onchange="handleFacultyChange()" disabled>
+                    <option value="">-- Select Faculty --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="course-select">Target Program / Qualification</label>
+                <select id="course-select" onchange="evaluateEligibility()" disabled>
+                    <option value="">-- Select Qualification --</option>
+                </select>
+                <p class="info-text" style="margin-top: 5px;">Qualifications flagged with symbols (* or #) indicate explicit standard testing rules (such as NBT metrics).</p>
+            </div>
+
+            <div id="evaluation-zone" style="display: none;">
+                <h2 style="margin-top: 30px;">4. Admission Criteria Evaluation</h2>
+                <div id="calc-score-display" class="uni-meta" style="background-color: #f8fafc; border-left-color: #64748b;">
+                    </div>
+                <div id="requirements-checklist" class="requirements-list">
+                    </div>
+                <div id="final-status-msg" class="status-msg">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <p><strong>Verification Notice:</strong> Institutional application frameworks, entry points, and policies update continuously. Always verify performance metrics directly with the target university administration.</p>
+        <p style="margin-top: 15px;">Please contact our technical desk at <a href="mailto:apsifysa@gmail.com">apsifysa@gmail.com</a>.</p>
+        <p style="margin-top: 15px;">This system architecture was built exclusively by an independent engineer. Donations are what makes this website possible and further improves the website. If this layout streamlined your tracking, consider supporting deep execution care: <a href="/images/IMG_5575.JPG" target="_blank">Support Engineering via PayPal</a>.</p>
+    </div>
+</div>
+
+<script>
+    const allowedSubjects = [
+        "Afrikaans", "English", "isiNdebele", "isiXhosa", "isiZulu", "Sepedi", "Sesotho", "Setswana", 
+        "siSwati", "Tshivenda", "Xitsonga", "South African Sign Language", "Mathematics", "Mathematical Literacy", 
+        "Technical Mathematics", "Life Orientation", "Accounting", "Business Studies", "Economics", 
+        "Agricultural Management Practices", "Agricultural Sciences", "Agricultural Technology", 
+        "Computer Applications Technology", "Information Technology", "Life Sciences", "Physical Sciences", 
+        "Technical Sciences", "Geography", "History", "Religion Studies", "Dance Studies", "Design", 
+        "Dramatic Arts", "Music", "Visual Arts", "Civil Technology", "Electrical Technology", 
+        "Mechanical Technology", "Engineering Graphics and Design", "Consumer Studies", "Hospitality Studies", 
+        "Tourism", "Arabic", "French", "German", "Gujarati", "Hebrew", "Hindi", "Italian", "Latin", 
+        "Mandarin", "Modern Greek", "Portuguese", "Serbian", "Spanish", "Tamil", "Telugu", "Urdu", 
+        "Equine Studies", "Marine Sciences", "Maritime Economics", "Nautical Science", "Sports and Exercise Science", 
+        "Advanced Programme Mathematics", "Advanced Programme English", "Advanced Programme Afrikaans"
+    ];
+
+    const advancedSubjects = [
+        "Advanced Programme Mathematics", "Advanced Programme English", "Advanced Programme Afrikaans"
+    ];
+
+    const defaultMandatedSubjects = ["English", "Mathematics", "Life Orientation", "Physical Sciences", "Life Sciences", "Accounting", "Business Studies"];
+
+    // Custom Rules Keys that shouldn't fall into the flat > match.level check
+    const customInternalKeys = [
+        "UWC_BComAcc3", "UWC_BComAcc4", "UWC_ArtsMaths", "UWC_NatSciComp", "UWC_EdAcc", "UWC_EdHistGeo",
+        "SU_Lang", "SU_EngLang", "SU_BAccMaths", "SU_NurMath", "SU_ArtsLang", 
+        "UP_AdminMath", "UP_SportSciSci", "UP_NoLit", "UP_EdFoundMath", "UP_SciOrLife",
+        "RU_EngHomeOrFal", "RU_LawEng", 
+        "Wits_HealthSci", "Wits_EdMath", "MathsOrLitOrTech",
+        "UJ_ArchMath", "UJ_SecondLang", "UJ_EngTechMath", "UJ_EngTechSci",
+        "NWU_BioSci", "NWU_NurSci", "NWU_ItMath", "NWU_CA_Rules", "NWU_EngLang", "NWU_EngMathSci", "NWU_LawLang",
+        "UCT_Lang_Rule", "UCT_Actuarial_Lang", "UCT_GenHumLang", "uct_medical_sub", "uct_health_sub"
+    ];
+
+    const universityData = {
+        UWC: {
+            fee: "Free",
+            openDate: "1 April 2027",
+            closeDate: "31 August 2027 (Dentistry & Oral Health) / 30 September 2027 (General)",
+            faculties: {
+                "Community and Health Sciences": [
+                    { name: "Bachelor of Social Work", nbt: false, req: { points: 34, subjects: { "English": 4, "MathsOrLit": { m: 3, l: 4 } } } },
+                    { name: "Bachelor of Community Development", nbt: false, req: { points: 30, subjects: { "English": 4, "MathsOrLit": { m: 3, l: 4 } } } },
+                    { name: "BA Sport, Recreation and Exercise Science", nbt: false, req: { points: 30, subjects: { "MathsOrLit": { m: 3, l: 4 } } } },
+                    { name: "Bachelor of Science in Dietetics", nbt: false, req: { points: 33, subjects: { "Life Sciences": 4, "MathsOrLit": { m: 4, l: 6 } } } },
+                    { name: "BSc Sport and Exercise Science", nbt: false, req: { points: 33, subjects: { "Life Sciences": 4, "MathsOrLit": { m: 4, l: 6 } } } },
+                    { name: "BSc Occupational Therapy", nbt: false, req: { points: 33, subjects: { "Life Sciences": 4, "MathsOrLit": { m: 3, l: 5 } } } },
+                    { name: "BSc Physiotherapy", nbt: false, req: { points: 39, subjects: { "Life Sciences": 4, "Physical Sciences": 4, "MathsOrLit": { m: 4, l: 6 } } } },
+                    { name: "Bachelor of Nursing", nbt: false, req: { points: 30, subjects: { "Life Sciences": 4, "MathsOrLit": { m: 4, l: 6 } } } }
+                ],
+                "Economic and Management Sciences": [
+                    { name: "BAdmin", nbt: false, req: { points: 30, subjects: { "MathsOrLit": { m: 3, l: 5 }, "English": 4 } } },
+                    { name: "BCom", nbt: false, req: { points: 30, subjects: { "Mathematics": 4, "English": 4 } } },
+                    { name: "BCom Financial Accounting", nbt: false, req: { points: 30, subjects: { "Mathematics": 4, "English": 4 } } },
+                    { name: "BCom Information Systems", nbt: false, req: { points: 30, subjects: { "Mathematics": 4, "English": 4 } } },
+                    { name: "BCom Accounting (3 years)", nbt: false, req: { points: 30, subjects: { "English": 4, "UWC_BComAcc3": true } } },
+                    { name: "BCom (4 years)", nbt: false, req: { points: 30, subjects: { "English": 3, "MathsOrLit": { m: 2, l: 6 } } } },
+                    { name: "BCom Accounting (4 years)", nbt: false, req: { points: 30, subjects: { "English": 3, "UWC_BComAcc4": true } } }
+                ],
+                "Arts and Humanities": [
+                    { name: "Bachelor of Arts (BA)", nbt: false, req: { points: 35, subjects: { "English": 4, "UWC_ArtsMaths": true } } },
+                    { name: "Bachelor of Theology (BTh)", nbt: false, req: { points: 35, subjects: { "English": 4 } } },
+                    { name: "Bachelor of Library and Information Studies (BLIS)", nbt: false, req: { points: 35, subjects: { "English": 4, "MathsOrLit": { m: 3, l: 4 } } } }
+                ],
+                "Natural Sciences": [
+                    { name: "BSc Environment and Water Science", nbt: false, req: { points: 33, subjects: { "English": 4, "Mathematics": 4, "ScienceOrLife": 4 } } },
+                    { name: "BSc Biotechnology", nbt: false, req: { points: 33, subjects: { "English": 4, "Mathematics": 4, "ScienceOrLife": 4 } } },
+                    { name: "BSc Biodiversity and Conservation Biology", nbt: false, req: { points: 33, subjects: { "English": 4, "Mathematics": 4, "ScienceOrLife": 4 } } },
+                    { name: "BSc Medical Bioscience", nbt: false, req: { points: 33, subjects: { "English": 4, "Mathematics": 4, "Life Sciences": 4 } } },
+                    { name: "BSc Chemical Sciences", nbt: false, req: { points: 33, subjects: { "English": 4, "Mathematics": 4, "Physical Sciences": 4 } } },
+                    { name: "BSc Applied Geology", nbt: false, req: { points: 33, subjects: { "English": 4, "Mathematics": 4, "Physical Sciences": 4 } } },
+                    { name: "BSc Physical Science", nbt: false, req: { points: 33, subjects: { "English": 4, "Mathematics": 5, "Physical Sciences": 4 } } },
+                    { name: "BSc Mathematics & Statistical Sciences", nbt: false, req: { points: 33, subjects: { "English": 4, "Mathematics": 5, "UWC_NatSciComp": true } } },
+                    { name: "BSc Computer Science", nbt: false, req: { points: 33, subjects: { "English": 4, "Mathematics": 5, "UWC_NatSciComp": true } } },
+                    { name: "Bachelor of Pharmacy", nbt: false, req: { points: 38, subjects: { "English": 4, "Mathematics": 4, "Physical Sciences": 4, "Life Sciences": 4 } } }
+                ],
+                "Dentistry": [
+                    { name: "Bachelor of Dental Surgery (BDS)", nbt: false, req: { points: 40, subjects: { "English": 4, "Mathematics": 4, "Physical Sciences": 4, "Life Sciences": 4 } } },
+                    { name: "Bachelor of Oral Health (BOH)", nbt: false, req: { points: 33, subjects: { "English": 4, "Life Sciences": 4, "MathsOrLit": { m: 3, l: 4 } } } }
+                ],
+                "Law": [
+                    { name: "Bachelor of Laws (LLB) (4-Year Programme)", nbt: false, req: { points: 37, subjects: { "English": 4, "MathsOrLit": { m: 3, l: 5 } } } },
+                    { name: "BCom Law", nbt: false, req: { points: 30, subjects: { "English": 4, "Mathematics": 4 } } },
+                    { name: "Bachelor of Arts in Law - BA (Law)", nbt: false, req: { points: 37, subjects: { "English": 4, "MathsOrLit": { m: 3, l: 5 } } } }
+                ],
+                "Education": [
+                    { name: "BEd Accounting (FET), EMS & Maths (SP)", nbt: false, req: { points: 33, subjects: { "English": 4, "MathsOrLit": { m: 4, l: 6 }, "UWC_EdAcc": true } } },
+                    { name: "BEd Maths (SP), Maths Lit (SP/FET) & NatSci (SP)", nbt: false, req: { points: 33, subjects: { "English": 4, "MathsOrLit": { m: 4, l: 6 }, "ScienceOrLife": 4 } } },
+                    { name: "BEd Languages (SP/FET) and Life Orientation (SP)", nbt: false, req: { points: 33, subjects: { "English": 4, "MathsOrLit": { m: 3, l: 5 }, "Life Orientation": 4 } } },
+                    { name: "BEd Languages (SP/FET) and Mathematics (SP)", nbt: false, req: { points: 33, subjects: { "English": 4, "MathsOrLit": { m: 4, l: 6 } } } },
+                    { name: "BEd Languages (SP/FET) and Social Sciences (SP)", nbt: false, req: { points: 33, subjects: { "English": 4, "MathsOrLit": { m: 3, l: 5 }, "UWC_EdHistGeo": true } } },
+                    { name: "BEd Foundation Phase Teaching", nbt: false, req: { points: 33, subjects: { "English": 4, "MathsOrLit": { m: 3, l: 5 } } } }
+                ]
+            }
+        },
+        SU: {
+            fee: "R100",
+            openDate: "1 April 2027",
+            closeDate: "31 July 2027 (General)",
+            faculties: {
+                "Economic and Management Sciences": [
+                    { name: "BCom (General)", nbt: false, req: { avg: 65, subjects: { "SU_Lang": 5, "Mathematics": 5 } } },
+                    { name: "BCom in Accounting (BAcc)", nbt: false, req: { avg: 70, subjects: { "SU_Lang": 5, "SU_BAccMaths": true } } },
+                    { name: "BCom in Actuarial Science", nbt: false, req: { avg: 80, subjects: { "SU_Lang": 5, "Mathematics": 7 } } },
+                    { name: "BDatSci (Data Science)", nbt: false, req: { avg: 80, subjects: { "SU_Lang": 5, "Mathematics": 7 } } }
+                ],
+                "Engineering": [
+                    { name: "BEng (All Specializations)", nbt: false, req: { avg: 70, subjects: { "SU_EngLang": true, "SU_Pct_Mathematics": 70, "SU_Pct_Physical Sciences": 60 } } }
+                ],
+                "Medicine and Health Sciences": [
+                    { name: "MBChB (Medicine and Surgery)", nbt: false, req: { avg: 75, subjects: { "Mathematics": 6, "Physical Sciences": 5, "Life Sciences": 5 } } },
+                    { name: "BSc in Physiotherapy", nbt: false, req: { avg: 65, subjects: { "Mathematics": 5, "Physical Sciences": 4, "Life Sciences": 5 } } },
+                    { name: "Bachelor of Nursing", nbt: false, req: { avg: 50, subjects: { "Life Sciences": 4, "SU_NurMath": true } } }
+                ],
+                "Science": [
+                    { name: "BSc (Mathematical Sciences)", nbt: false, req: { avg: 65, subjects: { "Mathematics": 6 } } },
+                    { name: "BSc (Molecular Biology and Biotechnology)", nbt: false, req: { avg: 65, subjects: { "Mathematics": 6, "Physical Sciences": 5 } } },
+                    { name: "BSc (GeoInformatics)", nbt: false, req: { avg: 65, subjects: { "Mathematics": 6, "Physical Sciences": 5 } } }
+                ],
+                "Law": [
+                    { name: "LLB (4-Year Programme)", nbt: false, req: { avg: 70, subjects: { "SU_Lang": 5 } } },
+                    { name: "BA (Law)", nbt: false, req: { avg: 70, subjects: { "SU_Lang": 5 } } },
+                    { name: "BCom (Law)", nbt: false, req: { avg: 70, subjects: { "SU_Lang": 5, "Mathematics": 5 } } }
+                ],
+                "Arts and Social Sciences": [
+                    { name: "BA (Humanities)", nbt: false, req: { avg: 65, subjects: { "SU_ArtsLang": true } } },
+                    { name: "BA (Visual Arts)", nbt: false, req: { avg: 60, subjects: { "SU_ArtsLang": true } } },
+                    { name: "BA (Drama and Theatre Studies)", nbt: false, req: { avg: 60, subjects: { "SU_ArtsLang": true } } }
+                ],
+                "Education": [
+                    { name: "BEd (Foundation / Intermediate Phase)", nbt: false, req: { avg: 60, subjects: { "SU_ArtsLang": true, "SU_NurMath": true } } }
+                ],
+                "AgriSciences": [
+                    { name: "BScAgric (Animal / Plant / Soil)", nbt: false, req: { avg: 60, subjects: { "Mathematics": 5, "Physical Sciences": 4 } } }
+                ],
+                "Theology": [
+                    { name: "BTh (Bachelor of Theology)", nbt: false, req: { avg: 60, subjects: {} } }
+                ]
+            }
+        },
+        UP: {
+            fee: "R300",
+            openDate: "1 April 2027",
+            closeDate: "31 May 2027 (Vet Science) / 30 June 2027 (General)",
+            faculties: {
+                "Economic and Management Sciences": [
+                    { name: "BAdmin Public Admin & International Relations", nbt: false, req: { aps: 28, subjects: { "English": 5, "UP_AdminMath": true } } },
+                    { name: "BCom Law", nbt: false, req: { aps: 32, subjects: { "English": 5, "Mathematics": 5 } } },
+                    { name: "BCom Statistics and Data Science", nbt: false, req: { aps: 32, subjects: { "English": 5, "Mathematics": 5 } } },
+                    { name: "BCom Information Systems", nbt: false, req: { aps: 30, subjects: { "English": 5, "Mathematics": 5 } } },
+                    { name: "BCom in Accounting Sciences", nbt: false, req: { aps: 34, subjects: { "English": 5, "Mathematics": 6 } } },
+                    { name: "BCom Investment Management", nbt: false, req: { aps: 34, subjects: { "English": 5, "Mathematics": 6 } } },
+                    { name: "BCom Econometrics", nbt: false, req: { aps: 32, subjects: { "English": 5, "Mathematics": 6 } } },
+                    { name: "BCom Business Management / Marketing / Economics", nbt: false, req: { aps: 30, subjects: { "English": 5, "Mathematics": 4 } } }
+                ],
+                "Engineering, Built Environment & IT": [
+                    { name: "Bachelor of Engineering [4 years] (All Streams)", nbt: false, req: { aps: 35, subjects: { "English": 5, "Mathematics": 6, "Physical Sciences": 6 } } },
+                    { name: "Bachelor of Engineering [5-year Extended]", nbt: false, req: { aps: 33, subjects: { "UP_Pct_English": 65, "UP_Pct_Mathematics": 65, "UP_Pct_Physical Sciences": 65 } } }
+                ],
+                "Health Sciences": [
+                    { name: "Bachelor of Dental Surgery", nbt: false, req: { aps: 35, subjects: { "English": 5, "Mathematics": 6, "Physical Sciences": 5 } } },
+                    { name: "Medicine and Surgery (MBChB)", nbt: false, req: { aps: 35, subjects: { "English": 5, "Mathematics": 6, "Physical Sciences": 5 } } },
+                    { name: "Bachelor of Oral Hygiene", nbt: false, req: { aps: 25, subjects: { "English": 4, "Mathematics": 4 } } },
+                    { name: "Bachelor of Dietetics", nbt: false, req: { aps: 28, subjects: { "English": 4, "Mathematics": 4, "Physical Sciences": 4 } } },
+                    { name: "Bachelor of Nursing Science", nbt: false, req: { aps: 28, subjects: { "English": 4, "Mathematics": 4, "Life Sciences": 4 } } },
+                    { name: "Bachelor of Sports Science", nbt: false, req: { aps: 30, subjects: { "English": 4, "Mathematics": 4, "UP_SportSciSci": true } } }
+                ],
+                "Natural and Agricultural Sciences": [
+                    { name: "BSc Food Management (Nutritional Science)", nbt: false, req: { aps: 32, subjects: { "English": 5, "Mathematics": 5, "Physical Sciences": 5 } } },
+                    { name: "BSc Genetics / Human Genetics", nbt: false, req: { aps: 32, subjects: { "English": 5, "Mathematics": 5, "Physical Sciences": 5 } } },
+                    { name: "BSc Mathematical Statistics", nbt: false, req: { aps: 34, subjects: { "English": 5, "Mathematics": 6 } } },
+                    { name: "BSc Chemistry / Geography / Geology / Physics", nbt: false, req: { aps: 34, subjects: { "English": 5, "Mathematics": 5, "Physical Sciences": 5 } } },
+                    { name: "Extended BSc Programmes", nbt: false, req: { aps: 32, subjects: { "UP_Pct_English": 58, "UP_Pct_Mathematics": 58, "UP_Pct_Physical Sciences": 58 } } },
+                    { name: "Extended BSc in Agriculture Programmes", nbt: false, req: { aps: 30, subjects: { "UP_Pct_English": 58, "UP_Pct_Mathematics": 58, "UP_Pct_Physical Sciences": 58 } } }
+                ],
+                "Veterinary Science": [
+                    { name: "Bachelor of Veterinary Science [6 years]", nbt: false, req: { aps: 35, subjects: { "English": 5, "Mathematics": 5, "Physical Sciences": 5, "UP_NoLit": true } } },
+                    { name: "Bachelor of Veterinary Nursing [3 years]", nbt: false, req: { aps: 28, subjects: { "English": 4, "Mathematics": 4, "UP_SciOrLife": 4 } } }
+                ],
+                "Humanities and Arts": [
+                    { name: "Bachelor of Drama", nbt: false, req: { aps: 26, subjects: { "English": 4 } } },
+                    { name: "BPolSci (International Studies)", nbt: false, req: { aps: 30, subjects: { "English": 5 } } },
+                    { name: "BPolSci (Political Studies)", nbt: false, req: { aps: 30, subjects: { "English": 5 } } },
+                    { name: "Bachelor of Arts in Fine Arts", nbt: false, req: { aps: 30, subjects: { "English": 5 } } },
+                    { name: "Bachelor of Arts in Visual Studies", nbt: false, req: { aps: 30, subjects: { "English": 5 } } }
+                ],
+                "Education": [
+                    { name: "BEd Early Childhood Care and Education", nbt: false, req: { aps: 28, subjects: { "English": 4 } } },
+                    { name: "BEd Foundation Phase Teaching", nbt: false, req: { aps: 28, subjects: { "English": 4, "UP_EdFoundMath": true } } }
+                ]
+            }
+        },
+        RU: {
+            fee: "R100",
+            openDate: "1 April 2027",
+            closeDate: "30 September 2027",
+            faculties: {
+                "Commerce Faculty": [
+                    { name: "Bachelor of Business Science *", nbt: true, req: { aps: 38, subjects: { "English": 4, "Mathematics": 6 } } },
+                    { name: "Bachelor of Commerce (BCom) [3 Years] *", nbt: true, req: { aps: 34, subjects: { "English": 4, "Mathematics": 4 } } },
+                    { name: "Bachelor of Economics (BEco) [3 Years] *", nbt: true, req: { aps: 34, subjects: { "English": 4, "Mathematics": 4 } } },
+                    { name: "BCom Extended Studies [4 Years] *", nbt: true, req: { aps: 34, subjects: { "Mathematics": 4 } } }
+                ],
+                "Humanities Faculty": [
+                    { name: "Bachelor of Arts (BA) #", nbt: true, req: { aps: 34, subjects: { "RU_EngHomeOrFal": true } } },
+                    { name: "Bachelor of Social Science (BSS) #", nbt: true, req: { aps: 34, subjects: { "RU_EngHomeOrFal": true } } },
+                    { name: "Bachelor of Fine Arts (BFA) #", nbt: true, req: { aps: 34, subjects: { "RU_EngHomeOrFal": true } } },
+                    { name: "Bachelor of Music (BMus) #", nbt: true, req: { aps: 34, subjects: { "RU_EngHomeOrFal": true } } },
+                    { name: "Bachelor of Journalism (BJourn) #", nbt: true, req: { aps: 34, subjects: { "RU_EngHomeOrFal": true } } },
+                    { name: "BA or BSS Extended Studies #", nbt: true, req: { aps: 34, subjects: { "RU_EngHomeOrFal": true } } }
+                ],
+                "Education / Law / Pharmacy / Science": [
+                    { name: "Bachelor of Education (BEDFP) [4 Years] #", nbt: true, req: { aps: 38, subjects: { "English": 4, "MathsOrLit": { m: 3, l: 4 } } } },
+                    { name: "Bachelor of Law (LLB) [4 Years] #", nbt: true, req: { aps: 40, subjects: { "RU_LawEng": true, "MathsOrLit": { m: 4, l: 5 } } } },
+                    { name: "Bachelor of Pharmacy (BPharm) [4 Years] *", nbt: true, req: { aps: 40, subjects: { "Mathematics": 5, "Life Sciences": 5, "Physical Sciences": 5 } } },
+                    { name: "Bachelor of Science (BSc) [3 Years] *", nbt: true, req: { aps: 40, subjects: { "RU_EngHomeOrFal": true, "Physical Sciences": 5 } } },
+                    { name: "Bachelor of Information Systems (BScInfoSys) *", nbt: true, req: { aps: 40, subjects: { "English": 5, "Mathematics": 4, "Physical Sciences": 5 } } }
+                ]
+            }
+        },
+        Wits: {
+            fee: "R100",
+            openDate: "30 March 2027",
+            closeDate: "30 June 2027 (Health/Art/Film) / 30 September 2027 (General)",
+            faculties: {
+                "Commerce, Law & Management": [
+                    { name: "BCom (General / Info Systems / PPE)", nbt: false, req: { aps: 38, subjects: { "English": 5, "Mathematics": 5 } } },
+                    { name: "BCom in Accounting Science", nbt: false, req: { aps: 44, subjects: { "English": 5, "Mathematics": 6 } } },
+                    { name: "BCom in Accounting", nbt: false, req: { aps: 38, subjects: { "English": 5, "Mathematics": 5 } } },
+                    { name: "BCom in Economic Science", nbt: false, req: { aps: 42, subjects: { "English": 5, "Mathematics": 7 } } },
+                    { name: "BCom with Law", nbt: false, req: { aps: 43, subjects: { "English": 5, "Mathematics": 5 } } },
+                    { name: "LLB (4-year stream)", nbt: false, req: { aps: 46, subjects: { "English": 6, "MathsOrLit": { m: 4, l: 6 } } } }
+                ],
+                "Engineering and the Built Environment": [
+                    { name: "Engineering (Chemical/Civil/Electrical/Mech/Aero/Mining/Industrial)", nbt: false, req: { aps: 42, subjects: { "English": 5, "Mathematics": 5, "Physical Sciences": 5 } } },
+                    { name: "Architectural Studies", nbt: false, req: { aps: 34, subjects: { "English": 4, "Mathematics": 4 } } },
+                    { name: "Urban and Regional Planning / Construction Studies / Property Studies", nbt: false, req: { aps: 36, subjects: { "English": 5, "Mathematics": 5 } } }
+                ],
+                "Health Sciences": [
+                    { name: "Health Sciences (Biomed / Biokinetics) *", nbt: true, req: { subjects: { "English": 5, "Mathematics": 5, "Wits_HealthSci": true } } },
+                    { name: "Medicine and Surgery (MBChB) *", nbt: true, req: { subjects: { "English": 5, "Mathematics": 5, "Wits_HealthSci": true } } },
+                    { name: "Dental Science / Physiotherapy *", nbt: true, req: { subjects: { "English": 5, "Mathematics": 5, "Physical Sciences": 5, "Life Sciences": 5 } } },
+                    { name: "Oral Health Sciences / Clinical Medical Practice *", nbt: true, req: { subjects: { "English": 4, "MathsOrLit": { m: 4, l: 7 }, "Wits_HealthSci": true } } },
+                    { name: "Nursing / Occupational Therapy *", nbt: true, req: { subjects: { "English": 4, "Mathematics": 4, "Wits_HealthSci": true } } },
+                    { name: "Pharmacy *", nbt: true, req: { subjects: { "English": 5, "Mathematics": 5, "Wits_HealthSci": true } } }
+                ],
+                "Humanities": [
+                    { name: "Arts (BA) / Digital Arts", nbt: false, req: { aps: 36, subjects: { "English": 5 } } },
+                    { name: "Arts (Law)", nbt: false, req: { aps: 43, subjects: { "English": 5, "MathsOrLitOrTech": true } } },
+                    { name: "Arts (Theatre/Film/Fine Arts/Music)", nbt: false, req: { aps: 34, subjects: { "English": 5 } } },
+                    { name: "BEd (Foundation / Intermediate Phase)", nbt: false, req: { aps: 37, subjects: { "English": 5, "Wits_EdMath": true } } },
+                    { name: "Speech-Language Pathology / Audiology *", nbt: true, req: { aps: 34, subjects: { "English": 5, "Mathematics": 4 } } },
+                    { name: "Social Work", nbt: false, req: { aps: 34, subjects: { "English": 5 } } }
+                ],
+                "Science": [
+                    { name: "Science (BSc) General *", nbt: true, req: { aps: 42, subjects: { "English": 5, "Mathematics": 5 } } },
+                    { name: "Biological Sciences *", nbt: true, req: { aps: 43, subjects: { "English": 5, "Mathematics": 5 } } },
+                    { name: "Geological Sciences *", nbt: true, req: { aps: 42, subjects: { "English": 5, "Mathematics": 6, "Physical Sciences": 5 } } },
+                    { name: "Actuarial Science / Mathematical Sciences *", nbt: true, req: { aps: 42, subjects: { "English": 7, "Mathematics": 7, "Physical Sciences": 7 } } },
+                    { name: "Computer Science / Computational & Applied Math *", nbt: true, req: { aps: 44, subjects: { "English": 5, "Mathematics": 6 } } },
+                    { name: "Physical Sciences (Chemistry/Physics) *", nbt: true, req: { aps: 42, subjects: { "English": 5, "Mathematics": 6, "Physical Sciences": 5 } } }
+                ]
+            }
+        },
+        UJ: {
+            fee: "Free",
+            openDate: "1 April 2027",
+            closeDate: "31 August 2027 (Health Sci) / 31 October 2027 (General)",
+            faculties: {
+                "Art, Design and Architecture": [
+                    { name: "Bachelor of Architecture", nbt: false, req: { aps: 30, subjects: { "English": 5, "UJ_ArchMath": true } } },
+                    { name: "Bachelor of Visual Art / Fashion Design", nbt: false, req: { aps: 23, subjects: { "English": 4 } } }
+                ],
+                "College of Business and Economics": [
+                    { name: "BCom in Accounting", nbt: false, req: { aps: 32, subjects: { "English": 4, "Mathematics": 5 } } },
+                    { name: "BCom in Finance", nbt: false, req: { aps: 28, subjects: { "English": 4, "Mathematics": 4 } } },
+                    { name: "BCom in Business Management", nbt: false, req: { aps: 26, subjects: { "English": 4, "MathsOrLit": { m: 4, l: 7 } } } }
+                ],
+                "Education": [
+                    { name: "BEd in Foundation Phase Teaching", nbt: false, req: { aps: 26, subjects: { "English": 4, "UJ_SecondLang": 3, "MathsOrLit": { m: 3, l: 5 } } } },
+                    { name: "BEd in Senior Phase and FET Teaching", nbt: false, req: { aps: 26, subjects: { "English": 4 } } }
+                ],
+                "Engineering & Built Environment": [
+                    { name: "BEngTech (Civil / Electrical / Mechanical / Industrial)", nbt: false, req: { aps: 30, subjects: { "English": 4, "UJ_EngTechMath": true, "UJ_EngTechSci": true } } },
+                    { name: "Bachelor of Urban and Regional Planning", nbt: false, req: { aps: 30, subjects: { "English": 4, "Mathematics": 5 } } }
+                ],
+                "Health Sciences": [
+                    { name: "Bachelor of Nursing", nbt: false, req: { aps: 28, subjects: { "English": 5, "MathsOrLit": { m: 4, l: 5 }, "Life Sciences": 4 } } },
+                    { name: "Bachelor of Biokinetics", nbt: false, req: { aps: 27, subjects: { "English": 5, "Mathematics": 4, "Life Sciences": 4, "Physical Sciences": 4 } } }
+                ],
+                "Humanities": [
+                    { name: "BA in General Humanities", nbt: false, req: { aps: 26, subjects: { "English": 5 } } },
+                    { name: "Bachelor of Social Work", nbt: false, req: { aps: 30, subjects: { "English": 5, "UJ_SecondLang": 4, "MathsOrLit": { m: 3, l: 4 } } } }
+                ],
+                "Law": [
+                    { name: "Bachelor of Laws (LLB)", nbt: false, req: { aps: 32, subjects: { "English": 5, "MathsOrLit": { m: 3, l: 4 } } } },
+                    { name: "BCom in Law", nbt: false, req: { aps: 32, subjects: { "English": 5, "Mathematics": 4 } } },
+                    { name: "BA in Law", nbt: false, req: { aps: 32, subjects: { "English": 5, "MathsOrLit": { m: 3, l: 4 } } } }
+                ],
+                "Science": [
+                    { name: "BSc in Computer Science and Informatics", nbt: false, req: { aps: 30, subjects: { "English": 5, "Mathematics": 6 } } },
+                    { name: "BSc in Biological Sciences", nbt: false, req: { aps: 30, subjects: { "English": 5, "Mathematics": 5, "Physical Sciences": 5 } } }
+                ]
+            }
+        },
+        NWU: {
+            fee: "Free",
+            openDate: "1 April 2027",
+            closeDate: "30 June 2027 (Select Courses) / 31 August 2027 (General)",
+            faculties: {
+                "Health Sciences": [
+                    { name: "Bachelor of Pharmacy / BSc in Dietetics", nbt: false, req: { aps: 32, subjects: { "Mathematics": 5, "Physical Sciences": 5 } } },
+                    { name: "BHSc in Biokinetics", nbt: false, req: { aps: 32, subjects: { "MathsOrLit": { m: 3, l: 4 }, "NWU_BioSci": true } } },
+                    { name: "Bachelor of Nursing", nbt: false, req: { aps: 25, subjects: { "NWU_NurSci": true } } }
+                ],
+                "Natural and Agricultural Sciences": [
+                    { name: "BSc Standard Tracks (Physical / Mathematical / Computer)", nbt: false, req: { aps: 26, subjects: { "Mathematics": 5, "Physical Sciences": 4 } } },
+                    { name: "BSc Information Technology (Standard)", nbt: false, req: { aps: 26, subjects: { "NWU_ItMath": true } } },
+                    { name: "BSc Business Analytics / Actuarial Sciences", nbt: false, req: { aps: 32, subjects: { "Mathematics": 6 } } }
+                ],
+                "Economic and Management Sciences": [
+                    { name: "BCom Chartered Accountancy", nbt: false, req: { aps: 32, subjects: { "NWU_CA_Rules": true } } },
+                    { name: "BCom Financial Accountancy", nbt: false, req: { aps: 28, subjects: { "Mathematics": 4 } } },
+                    { name: "BCom Management Accountancy", nbt: false, req: { aps: 30, subjects: { "Mathematics": 5 } } }
+                ],
+                "Engineering & Law": [
+                    { name: "Bachelor of Engineering (All Streams)", nbt: false, req: { aps: 34, subjects: { "NWU_Pct_English": 60, "NWU_Pct_Mathematics": 70, "NWU_Pct_Physical Sciences": 70 } } },
+                    { name: "Standard LLB", nbt: false, req: { aps: 34, subjects: { "NWU_LawLang": true, "MathsOrLit": { m: 3, l: 5 } } } }
+                ]
+            }
+        },
+        UCT: {
+            fee: "R100",
+            openDate: "1 April 2027",
+            closeDate: "31 July 2027",
+            faculties: {
+                "Commerce": [
+                    { name: "BBusSc / BCom (Core/Standard Specialisations) *", nbt: true, req: { fps: 435, subjects: { "Mathematics": 60, "UCT_Lang_Rule": true } } },
+                    { name: "BBusSc / BCom (CompSci & DataSci Streams) *", nbt: true, req: { fps: 435, subjects: { "Mathematics": 70, "UCT_Lang_Rule": true } } },
+                    { name: "BBusSc / BCom (Actuarial Science & Quant Finance) *", nbt: true, req: { fps: 500, subjects: { "Mathematics": 80, "UCT_Actuarial_Lang": true } } }
+                ],
+                "Engineering & The Built Environment": [
+                    { name: "BSc Engineering (Civil / Chem / Mech / Elec) *", nbt: true, req: { fps: 500, subjects: { "Mathematics": 80, "Physical Sciences": 70 } } },
+                    { name: "BSc Construction Studies *", nbt: true, req: { fps: 450, subjects: { "Mathematics": 65, "Physical Sciences": 60 } } },
+                    { name: "BSc Property Studies *", nbt: true, req: { fps: 450, subjects: { "Mathematics": 65 } } },
+                    { name: "Bachelor of Architectural Studies *", nbt: true, req: { fps: 450, subjects: { "Mathematics": 50, "English": 50 } } }
+                ],
+                "Health Sciences": [
+                    { name: "Medicine and Surgery (MBChB) *", nbt: true, req: { uct_aps: 450, uct_medical_sub: true } },
+                    { name: "BSc in Physiotherapy *", nbt: true, req: { uct_aps: 360, uct_health_sub: 60 } }
+                ],
+                "Humanities & Law": [
+                    { name: "BA / BSocSc [General Degrees] #", nbt: true, req: { fps: 450, subjects: { "UCT_GenHumLang": true } } },
+                    { name: "BSocSc in Philosophy, Politics and Economics *", nbt: true, req: { fps: 450, subjects: { "Mathematics": 60, "UCT_GenHumLang": true } } },
+                    { name: "4-Year Undergraduate LLB #", nbt: true, req: { fps: 500, subjects: {} } }
+                ]
+            }
+        }
+    };
+
+    // Auto-inject rows on startup
+    window.onload = function() {
+        for(let i=0; i<7; i++) {
+            addSubjectRow(i < defaultMandatedSubjects.length ? defaultMandatedSubjects[i] : "");
+        }
+    };
+
+    function addSubjectRow(initialSubject = "") {
+        const container = document.getElementById('subject-container');
+        const rowIndex = container.children.length;
+
+        const row = document.createElement('div');
+        row.className = 'subject-row';
+        
+        let options = `<option value="">-- Choose Subject --</option>`;
+        allowedSubjects.forEach(sub => {
+            const selected = sub === initialSubject ? "selected" : "";
+            options += `<option value="${sub}" ${selected}>${sub}</option>`;
+        });
+
+        row.innerHTML = `
+            <select class="subj-name">${options}</select>
+            <input type="number" class="subj-mark" placeholder="Mark %" min="0" max="100" oninput="calculateScores()">
+            <button type="button" class="btn-danger" onclick="this.parentElement.remove(); calculateScores();">X</button>
+        `;
+        container.appendChild(row);
+    }
+
+    function getUserSubjects() {
+        const rows = document.querySelectorAll('.subject-row');
+        let list = [];
+        rows.forEach(row => {
+            const name = row.querySelector('.subj-name').value;
+            const mark = parseInt(row.querySelector('.subj-mark').value);
+            if(name && !isNaN(mark)) {
+                list.push({ name, mark, level: percentageToLevel(mark) });
+            }
+        });
+        return list;
+    }
+
+    function percentageToLevel(pct) {
+        if (pct >= 80) return 7;
+        if (pct >= 70) return 6;
+        if (pct >= 60) return 5;
+        if (pct >= 50) return 4;
+        if (pct >= 40) return 3;
+        if (pct >= 30) return 2;
+        return 1;
+    }
+
+    function calculateScores() {
+        const subjects = getUserSubjects();
+        if(subjects.length === 0) return;
+
+        // Filter out advanced subjects right away
+        const validSubs = subjects.filter(s => !advancedSubjects.includes(s.name));
+        
+        // General unweighted basic APS computation (Top 6 excluding LO)
+        const noLO = validSubs.filter(s => s.name !== "Life Orientation");
+        noLO.sort((a,b) => b.level - a.level);
+        let baseAps = 0;
+        for(let i=0; i<Math.min(6, noLO.length); i++) {
+            baseAps += noLO[i].level;
+        }
+
+        // General Average (all valid subjects)
+        let totalPct = 0;
+        validSubs.forEach(s => totalPct += s.mark);
+        let avg = validSubs.length > 0 ? Math.round(totalPct / validSubs.length) : 0;
+
+        document.getElementById('gen-aps').innerText = baseAps;
+        document.getElementById('gen-avg').innerText = avg + "%";
+
+        // Trigger dynamic updates down the selector chain if active
+        if(document.getElementById('course-select').value) {
+            evaluateEligibility();
+        }
+    }
+
+    function handleUniChange() {
+        const uniKey = document.getElementById('uni-select').value;
+        const facultySelect = document.getElementById('faculty-select');
+        const courseSelect = document.getElementById('course-select');
+        const metaBox = document.getElementById('uni-metadata-box');
+        const evalZone = document.getElementById('evaluation-zone');
+
+        facultySelect.innerHTML = `<option value="">-- Select Faculty --</option>`;
+        courseSelect.innerHTML = `<option value="">-- Select Qualification --</option>`;
+        courseSelect.disabled = true;
+        evalZone.style.display = "none";
+
+        if(!uniKey) {
+            facultySelect.disabled = true;
+            metaBox.style.display = "none";
+            return;
+        }
+
+        const uni = universityData[uniKey];
+        metaBox.style.display = "block";
+        metaBox.innerHTML = `
+            <p><strong>Application Admin Fee:</strong> ${uni.fee}</p>
+            <p><strong>System Open Date:</strong> ${uni.openDate}</p>
+            <p><strong>System Closing Matrix:</strong> ${uni.closeDate}</p>
+        `;
+
+        Object.keys(uni.faculties).forEach(f => {
+            facultySelect.innerHTML += `<option value="${f}">${f}</option>`;
+        });
+        facultySelect.disabled = false;
+    }
+
+    function handleFacultyChange() {
+        const uniKey = document.getElementById('uni-select').value;
+        const facultyKey = document.getElementById('faculty-select').value;
+        const courseSelect = document.getElementById('course-select');
+        const evalZone = document.getElementById('evaluation-zone');
+
+        courseSelect.innerHTML = `<option value="">-- Select Qualification --</option>`;
+        evalZone.style.display = "none";
+
+        if(!facultyKey) {
+            courseSelect.disabled = true;
+            return;
+        }
+
+        const courses = universityData[uniKey].faculties[facultyKey];
+        courses.forEach((c, index) => {
+            courseSelect.innerHTML += `<option value="${index}">${c.name}</option>`;
+        });
+        courseSelect.disabled = false;
+    }
+
+    // Comprehensive rule interpreter engine matches current entries to specific institutional syntax models
+    function evaluateEligibility() {
+        const uniKey = document.getElementById('uni-select').value;
+        const facultyKey = document.getElementById('faculty-select').value;
+        const courseIdx = document.getElementById('course-select').value;
+        
+        if(!uniKey || !facultyKey || !courseIdx) return;
+
+        const course = universityData[uniKey].faculties[facultyKey][courseIdx];
+        const subjects = getUserSubjects().filter(s => !advancedSubjects.includes(s.name));
+        
+        document.getElementById('evaluation-zone').style.display = "block";
+        const checklist = document.getElementById('requirements-checklist');
+        checklist.innerHTML = "";
+
+        let scoreFeedbackText = "";
+        let passesAll = true;
+
+        // SUB-ROUTINE EXECUTION MATCHING TARGET STRUCTS
+        if(uniKey === "UWC") {
+            // UWC custom weighting model
+            let uwcPoints = 0;
+            subjects.forEach(s => {
+                let lvl = s.level;
+                // Extended bounds check mapping level 8 if percentage allows
+                if(s.mark >= 90) lvl = 8;
+
+                if(s.name === "English") {
+                    if(lvl === 8) uwcPoints += 15;
+                    else if(lvl === 7) uwcPoints += 13;
+                    else if(lvl === 6) uwcPoints += 11;
+                    else if(lvl === 5) uwcPoints += 9;
+                    else if(lvl === 4) uwcPoints += 7;
+                    else if(lvl === 3) uwcPoints += 5;
+                    else uwcPoints += lvl;
+                } else if(s.name === "Mathematics" || s.name === "Mathematical Literacy" || s.name === "Technical Mathematics") {
+                    if(lvl === 8) uwcPoints += 15;
+                    else if(lvl === 7) uwcPoints += 13;
+                    else if(lvl === 6) uwcPoints += 11;
+                    else if(lvl === 5) uwcPoints += 9;
+                    else if(lvl === 4) uwcPoints += 7;
+                    else if(lvl === 3) uwcPoints += 5;
+                    else uwcPoints += lvl;
+                } else if(s.name === "Life Orientation") {
+                    if(lvl >= 7) uwcPoints += 3;
+                    else if(lvl >= 5) uwcPoints += 2;
+                    else uwcPoints += 1;
+                } else {
+                    if(lvl === 8) uwcPoints += 8;
+                    else uwcPoints += lvl;
+                }
+            });
+            scoreFeedbackText = `Calculated UWC Points Total: <strong>${uwcPoints}</strong> (Target requirement: ${course.req.points})`;
+            
+            passesAll = checkItem(checklist, `Minimum UWC Score Matrix (Required: ${course.req.points})`, uwcPoints >= course.req.points) && passesAll;
+            passesAll = parseSubjectConstraints(checklist, course.req.subjects, subjects) && passesAll;
+
+        } else if(uniKey === "SU") {
+            // Stellenbosch percentage average methodology
+            const cleanSubs = subjects.filter(s => s.name !== "Life Orientation");
+            cleanSubs.sort((a,b) => b.mark - a.mark);
+            let totalTop6 = 0;
+            for(let i=0; i<Math.min(6, cleanSubs.length); i++) totalTop6 += cleanSubs[i].mark;
+            let suAvg = cleanSubs.length > 0 ? Math.round(totalTop6 / Math.min(6, cleanSubs.length)) : 0;
+
+            scoreFeedbackText = `Calculated SU Top-6 Aggregate: <strong>${suAvg}%</strong> (Target requirement: ${course.req.avg}%)`;
+            passesAll = checkItem(checklist, `Overall Core Aggregate percentage (Required: ${course.req.avg}%)`, suAvg >= course.req.avg) && passesAll;
+            passesAll = parseSubjectConstraints(checklist, course.req.subjects, subjects) && passesAll;
+
+        } else if(uniKey === "UP") {
+            // UP standard 42-pt scale calculation (English + Next 5 best, strictly ignoring LO)
+            const engSub = subjects.find(s => s.name === "English");
+            const nonEngNonLO = subjects.filter(s => s.name !== "English" && s.name !== "Life Orientation");
+            nonEngNonLO.sort((a,b) => b.level - a.level);
+            
+            let upAps = engSub ? engSub.level : 0;
+            let count = engSub ? 5 : 6;
+            for(let i=0; i<Math.min(count, nonEngNonLO.length); i++) {
+                upAps += nonEngNonLO[i].level;
+            }
+
+            scoreFeedbackText = `Calculated UP Admission Score (APS): <strong>${upAps}</strong> (Target requirement: ${course.req.aps || 'N/A'})`;
+            if(course.req.aps) {
+                passesAll = checkItem(checklist, `Required Minimum Admission Point Score (${course.req.aps})`, upAps >= course.req.aps) && passesAll;
+            }
+            passesAll = parseSubjectConstraints(checklist, course.req.subjects, subjects) && passesAll;
+
+        } else if(uniKey === "RU") {
+            // Rhodes precise base-10 decimal indexing scale
+            const cleanSubs = subjects.filter(s => s.name !== "Life Orientation");
+            let decimalPts = [];
+            cleanSubs.forEach(s => {
+                let pts = s.mark < 40 ? 0 : s.mark / 10;
+                decimalPts.push({ name: s.name, points: pts });
+            });
+            
+            const engObj = decimalPts.find(s => s.name === "English");
+            const remainders = decimalPts.filter(s => s.name !== "English");
+            remainders.sort((a,b) => b.points - a.points);
+
+            let ruAps = engObj ? engObj.points : 0;
+            let count = engObj ? 5 : 6;
+            for(let i=0; i<Math.min(count, remainders.length); i++) {
+                ruAps += remainders[i].points;
+            }
+            ruAps = parseFloat(ruAps.toFixed(1));
+
+            scoreFeedbackText = `Calculated Rhodes Decimal Score: <strong>${ruAps}</strong> (Target Dean's requirement: ${course.req.aps})`;
+            passesAll = checkItem(checklist, `Rhodes Decimal Requirement threshold (${course.req.aps})`, ruAps >= course.req.aps) && passesAll;
+            passesAll = parseSubjectConstraints(checklist, course.req.subjects, subjects) && passesAll;
+
+        } else if(uniKey === "Wits") {
+            // Wits custom 8-point banding algorithm + bonus provisions
+            let witsAps = 0;
+            subjects.forEach(s => {
+                let pts = 0;
+                if(s.mark >= 80) pts = 8;
+                else if(s.mark >= 70) pts = 7;
+                else if(s.mark >= 60) pts = 6;
+                else if(s.mark >= 50) pts = 5;
+                else if(s.mark >= 40) pts = 4;
+                else if(s.mark >= 30) pts = 3;
+
+                if(s.name === "Life Orientation") {
+                    if(s.mark >= 80) pts = 4;
+                    else if(s.mark >= 70) pts = 3;
+                    else if(s.mark >= 60) pts = 2;
+                    else if(s.mark >= 50) pts = 1;
+                    else pts = 0;
+                }
+                witsAps += pts;
+
+                // Add bonus points for English and Mathematics if mark >= 60%
+                if((s.name === "English" || s.name === "Mathematics") && s.mark >= 60) {
+                    witsAps += 2;
+                }
+            });
+
+            scoreFeedbackText = `Calculated Wits Custom Index (with bonuses): <strong>${witsAps}</strong>`;
+            if(course.req.aps) {
+                passesAll = checkItem(checklist, `Wits Target Threshold Check (${course.req.aps})`, witsAps >= course.req.aps) && passesAll;
+            }
+            passesAll = parseSubjectConstraints(checklist, course.req.subjects, subjects) && passesAll;
+
+        } else if(uniKey === "UJ") {
+            // UJ model: English + Add Lang + Math/Lit + 3 best electives. LO strictly omitted.
+            const eng = subjects.find(s => s.name === "English");
+            const languages = subjects.filter(s => s.name !== "English" && (s.name.includes("Language") || ["Afrikaans","isiNdebele","isiXhosa","isiZulu","Sepedi","Sesotho","Setswana","siSwati","Tshivenda","Xitsonga"].includes(s.name)));
+            languages.sort((a,b) => b.level - a.level);
+            const mathObj = subjects.find(s => ["Mathematics","Mathematical Literacy","Technical Mathematics"].includes(s.name));
+
+            const integratedUsed = [];
+            let ujAps = 0;
+
+            if(eng) { ujAps += eng.level; integratedUsed.push(eng.name); }
+            if(languages.length > 0) { ujAps += languages[0].level; integratedUsed.push(languages[0].name); }
+            if(mathObj) { ujAps += mathObj.level; integratedUsed.push(mathObj.name); }
+
+            const pool = subjects.filter(s => s.name !== "Life Orientation" && !integratedUsed.includes(s.name));
+            pool.sort((a,b) => b.level - a.level);
+            for(let i=0; i<Math.min(3, pool.length); i++) {
+                ujAps += pool[i].level;
+            }
+
+            scoreFeedbackText = `Calculated UJ Admission Points Score (APS): <strong>${ujAps}</strong> (Target requirement: ${course.req.aps})`;
+            if(course.req.aps) {
+                passesAll = checkItem(checklist, `UJ Standard Threshold Checklist (${course.req.aps})`, ujAps >= course.req.aps) && passesAll;
+            }
+            passesAll = parseSubjectConstraints(checklist, course.req.subjects, subjects) && passesAll;
+
+        } else if(uniKey === "NWU") {
+            // NWU standard mapping scale extending bounds up to 8 points for top level metrics
+            let nwuAps = 0;
+            const pool = subjects.filter(s => s.name !== "Life Orientation");
+            pool.forEach(s => {
+                let p = 0;
+                if(s.mark >= 90) p = 8;
+                else if(s.mark >= 80) p = 7;
+                else if(s.mark >= 70) p = 6;
+                else if(s.mark >= 60) p = 5;
+                else if(s.mark >= 50) p = 4;
+                else if(s.mark >= 40) p = 3;
+                else if(s.mark >= 30) p = 2;
+                else p = 1;
+                s.nwu_p = p;
+            });
+            pool.sort((a,b) => b.nwu_p - a.nwu_p);
+            for(let i=0; i<Math.min(6, pool.length); i++) nwuAps += pool[i].nwu_p;
+
+            scoreFeedbackText = `Calculated NWU Score Matrix Total: <strong>${nwuAps}</strong> (Target requirement: ${course.req.aps})`;
+            passesAll = checkItem(checklist, `NWU Score Validation Check (${course.req.aps})`, nwuAps >= course.req.aps) && passesAll;
+            passesAll = parseSubjectConstraints(checklist, course.req.subjects, subjects) && passesAll;
+
+        } else if(uniKey === "UCT") {
+            // UCT Faculty Points Score model summing raw percentage values directly
+            const eng = subjects.find(s => s.name === "English");
+            const pool = subjects.filter(s => s.name !== "English" && s.name !== "Life Orientation");
+            pool.sort((a,b) => b.mark - a.mark);
+            
+            let uctFps = eng ? eng.mark : 0;
+            let limit = eng ? 5 : 6;
+            for(let i=0; i<Math.min(limit, pool.length); i++) {
+                if(pool[i].mark >= 40) uctFps += pool[i].mark;
+            }
+
+            if(facultyKey === "Health Sciences") {
+                // Special handling for health subcategories tracking raw totals
+                scoreFeedbackText = `Calculated UCT Health Aggregate Base: <strong>${uctFps}</strong>`;
+                if(course.req.uct_aps) {
+                    passesAll = checkItem(checklist, `UCT Health Component Point Check (${course.req.uct_aps})`, uctFps >= course.req.uct_aps) && passesAll;
+                }
+            } else {
+                scoreFeedbackText = `Calculated UCT Faculty Points Score (FPS): <strong>${uctFps}</strong> (Target requirement: ${course.req.fps})`;
+                if(course.req.fps) {
+                    passesAll = checkItem(checklist, `UCT Faculty Points Score baseline (${course.req.fps})`, uctFps >= course.req.fps) && passesAll;
+                }
+            }
+            passesAll = parseSubjectConstraints(checklist, course.req.subjects, subjects) && passesAll;
+        }
+
+        document.getElementById('calc-score-display').innerHTML = scoreFeedbackText;
+
+        // Render localized status block context indicating final assessment output
+        const statusBox = document.getElementById('final-status-msg');
+        if(passesAll) {
+            statusBox.className = "status-msg status-success";
+            statusBox.innerHTML = "✅ The evaluated metrics indicate you fulfill the standard entry requirements for this program pathway.";
+        } else {
+            statusBox.className = "status-msg status-fail";
+            statusBox.innerHTML = "❌ The evaluated metrics indicate you do not currently fulfill all mandatory criteria for this program pathway.";
+        }
+    }
+
+    function checkItem(parentContainer, labelText, isPassed) {
+        const item = document.createElement('div');
+        item.className = 'requirement-item';
+        item.innerHTML = `
+            <span class="status-icon">${isPassed ? '✅' : '❌'}</span>
+            <span>${labelText}</span>
+        `;
+        parentContainer.appendChild(item);
+        return isPassed;
+    }
+
+    // Dynamic key evaluator tracking localized sub-conditions inside institutional registries
+    function parseSubjectConstraints(checklist, constraints, userSubjects) {
+        let localizedPass = true;
+        if(!constraints) return localizedPass;
+
+        Object.keys(constraints).forEach(key => {
+            const match = userSubjects.find(s => s.name === key);
+            
+            if(key === "MathsOrLit") {
+                const targetMath = constraints[key].m;
+                const targetLit = constraints[key].l;
+                const activeMath = userSubjects.find(s => s.name === "Mathematics");
+                const activeLit = userSubjects.find(s => ["Mathematical Literacy", "Technical Mathematics"].includes(s.name));
+                
+                let check = false;
+                let msg = `Requires Mathematics Level ${targetMath} OR Mathematical Literacy Level ${targetLit}`;
+                if(activeMath && activeMath.level >= targetMath) check = true;
+                if(activeLit && activeLit.level >= targetLit) check = true;
+                localizedPass = checkItem(checklist, msg, check) && localizedPass;
+
+            } else if(key === "ScienceOrLife" || key === "UP_SciOrLife") {
+                const reqLvl = constraints[key];
+                const testSub = userSubjects.find(s => ["Physical Sciences", "Life Sciences"].includes(s.name));
+                let check = testSub ? testSub.level >= reqLvl : false;
+                localizedPass = checkItem(checklist, `Requires Physical Sciences or Life Sciences at Level ${reqLvl}`, check) && localizedPass;
+
+            } else if(key === "UWC_BComAcc3") {
+                const math = userSubjects.find(s => s.name === "Mathematics");
+                const acc = userSubjects.find(s => s.name === "Accounting");
+                let check = false;
+                if(math && math.level >= 5) check = true;
+                if(math && math.level >= 4 && acc && acc.level >= 5) check = true;
+                localizedPass = checkItem(checklist, `Requires Mathematics Level 4 + Accounting Level 5 (OR Mathematics Level 5 straight)`, check) && localizedPass;
+
+            } else if(key === "UWC_BComAcc4") {
+                const math = userSubjects.find(s => s.name === "Mathematics");
+                const acc = userSubjects.find(s => s.name === "Accounting");
+                let check = false;
+                if(math && math.level >= 4) check = true;
+                if(math && math.level >= 3 && acc && acc.level >= 4) check = true;
+                localizedPass = checkItem(checklist, `Requires Mathematics Level 3 + Accounting Level 4 (OR Mathematics Level 4 straight)`, check) && localizedPass;
+
+            } else if(key === "UWC_ArtsMaths") {
+                // Arts sub condition tracking selective components
+                localizedPass = checkItem(checklist, `Note: Mathematics Level 3/Lit Level 4 only required if choosing select majors (Geography/Psychology).`, true) && localizedPass;
+
+            } else if(key === "UWC_NatSciComp") {
+                const test = userSubjects.find(s => ["Physical Sciences", "Life Sciences", "Information Technology"].includes(s.name));
+                let check = test ? test.level >= 4 : false;
+                localizedPass = checkItem(checklist, `Requires Level 4 inside approved Sciences/IT modules`, check) && localizedPass;
+
+            } else if(key === "UWC_EdAcc") {
+                const test = userSubjects.find(s => ["Accounting", "Business Studies", "Economics"].includes(s.name));
+                let check = test ? test.level >= 4 : false;
+                localizedPass = checkItem(checklist, `Requires Accounting, Business Studies or Economics at Level 4`, check) && localizedPass;
+
+            } else if(key === "UWC_EdHistGeo") {
+                const test = userSubjects.find(s => ["History", "Geography"].includes(s.name));
+                let check = test ? test.level >= 4 : false;
+                localizedPass = checkItem(checklist, `Requires History or Geography at Level 4`, check) && localizedPass;
+
+            } else if(key === "SU_Lang") {
+                const target = constraints[key];
+                const eng = userSubjects.find(s => s.name === "English");
+                let check = false;
+                if(eng && eng.level >= target) check = true; 
+                localizedPass = checkItem(checklist, `Requires Language Proficiency Code ${target}`, check) && localizedPass;
+
+            } else if(key === "SU_EngLang") {
+                const eng = userSubjects.find(s => s.name === "English");
+                let check = eng ? eng.mark >= 50 : false;
+                localizedPass = checkItem(checklist, `Requires English standard mark ≥ 50%`, check) && localizedPass;
+
+            } else if(key === "SU_BAccMaths") {
+                const math = userSubjects.find(s => s.name === "Mathematics");
+                const acc = userSubjects.find(s => s.name === "Accounting");
+                let check = false;
+                if(math && math.level >= 6) check = true;
+                if(math && math.level >= 5 && acc && acc.level >= 6) check = true;
+                localizedPass = checkItem(checklist, `Requires Mathematics Level 6 (OR Math Level 5 + Accounting Level 6)`, check) && localizedPass;
+
+            } else if(key === "SU_NurMath") {
+                const math = userSubjects.find(s => s.name === "Mathematics");
+                const lit = userSubjects.find(s => s.name === "Mathematical Literacy");
+                let check = false;
+                if(math && math.level >= 4) check = true;
+                if(lit && lit.level >= 5) check = true;
+                localizedPass = checkItem(checklist, `Requires Mathematics Level 4 OR Mathematical Literacy Level 5`, check) && localizedPass;
+
+            } else if(key === "UP_AdminMath") {
+                const math = userSubjects.find(s => s.name === "Mathematics");
+                const lit = userSubjects.find(s => s.name === "Mathematical Literacy");
+                let check = (math && math.level >= 3) || (lit && lit.level >= 4);
+                localizedPass = checkItem(checklist, `Requires Mathematics Level 3 OR Mathematical Literacy Level 4`, check) && localizedPass;
+
+            } else if(key === "UP_SportSciSci") {
+                const test = userSubjects.find(s => ["Physical Sciences", "Life Sciences"].includes(s.name));
+                let check = test ? test.level >= 4 : false;
+                localizedPass = checkItem(checklist, `Requires Physical Sciences or Life Sciences at Level 4`, check) && localizedPass;
+
+            } else if(key === "UP_NoLit") {
+                const lit = userSubjects.find(s => s.name === "Mathematical Literacy");
+                localizedPass = checkItem(checklist, `Mathematical Literacy is absolutely not accepted for this stream`, !lit) && localizedPass;
+
+            } else if(key === "UP_EdFoundMath") {
+                const math = userSubjects.find(s => s.name === "Mathematics");
+                const lit = userSubjects.find(s => s.name === "Mathematical Literacy");
+                let check = (math && math.level >= 3) || (lit && lit.level >= 5);
+                localizedPass = checkItem(checklist, `Requires Mathematics Level 3 OR Mathematical Literacy Level 5`, check) && localizedPass;
+
+            } else if(key.startsWith("UP_Pct_") || key.startsWith("NWU_Pct_") || key.startsWith("SU_Pct_")) {
+                const subName = key.replace("UP_Pct_", "").replace("NWU_Pct_", "").replace("SU_Pct_", "");
+                const targetPct = constraints[key];
+                const activeSub = userSubjects.find(s => s.name === subName);
+                let check = activeSub ? activeSub.mark >= targetPct : false;
+                localizedPass = checkItem(checklist, `Requires ${subName} percentage mark ≥ ${targetPct}%`, check) && localizedPass;
+
+            } else if(key === "RU_EngHomeOrFal" || key === "RU_LawEng") {
+                const eng = userSubjects.find(s => s.name === "English");
+                let check = eng ? eng.mark >= 60 : false; 
+                localizedPass = checkItem(checklist, `Requires English standard mark ≥ 60%`, check) && localizedPass;
+
+            } else if(key === "Wits_HealthSci") {
+                const bio = userSubjects.find(s => s.name === "Life Sciences");
+                const chem = userSubjects.find(s => s.name === "Physical Sciences");
+                let check = (bio && bio.level >= 5) || (chem && chem.level >= 5);
+                localizedPass = checkItem(checklist, `Requires Life Sciences and/or Physical Sciences at Level 5 or higher`, check) && localizedPass;
+
+            } else if(key === "UJ_ArchMath") {
+                const math = userSubjects.find(s => s.name === "Mathematics");
+                const techMath = userSubjects.find(s => s.name === "Technical Mathematics");
+                let check = (math && math.level >= 4) || (techMath && techMath.level >= 5);
+                localizedPass = checkItem(checklist, `Requires Core Mathematics Level 4 OR Technical Mathematics Level 5`, check) && localizedPass;
+
+            } else if(key === "UJ_SecondLang") {
+                const targetLvl = constraints[key];
+                // Check if any second language exists
+                const hasSecond = userSubjects.some(s => s.name !== "English" && s.level >= targetLvl);
+                localizedPass = checkItem(checklist, `Requires an additional official language at Level ${targetLvl}`, hasSecond) && localizedPass;
+
+            } else if(key === "UJ_EngTechMath") {
+                const math = userSubjects.find(s => s.name === "Mathematics");
+                const tech = userSubjects.find(s => s.name === "Technical Mathematics");
+                let check = (math && math.level >= 5) || (tech && tech.level >= 5);
+                localizedPass = checkItem(checklist, `Requires Mathematics or Technical Mathematics at Level 5`, check) && localizedPass;
+
+            } else if(key === "UJ_EngTechSci") {
+                const sci = userSubjects.find(s => s.name === "Physical Sciences");
+                const tech = userSubjects.find(s => s.name === "Technical Sciences");
+                let check = (sci && sci.level >= 5) || (tech && tech.level >= 5);
+                localizedPass = checkItem(checklist, `Requires Physical Sciences or Technical Sciences at Level 5`, check) && localizedPass;
+
+            } else if(key === "uct_medical_sub") {
+                const math = userSubjects.find(s => s.name === "Mathematics");
+                const sci = userSubjects.find(s => s.name === "Physical Sciences");
+                const eng = userSubjects.find(s => s.name === "English");
+                let check = (math && math.mark >= 70) && (sci && sci.mark >= 70) && (eng && eng.mark >= 65);
+                localizedPass = checkItem(checklist, `Medical Sub-minimum check: Math ≥ 70%, Physical Sci ≥ 70%, English ≥ 65%`, check) && localizedPass;
+
+            } else {
+                // Fallback for flat matching where the key is the exact subject name
+                if(!customInternalKeys.includes(key)) {
+                    if(!match) {
+                        localizedPass = checkItem(checklist, `Mandatory Subject missing: ${key} (Required Level/Mark: ${constraints[key]})`, false) && localizedPass;
+                    } else {
+                        const pass = match.level >= constraints[key] || match.mark >= constraints[key];
+                        localizedPass = checkItem(checklist, `Subject check: ${key} (Required Level/Mark: ${constraints[key]})`, pass) && localizedPass;
+                    }
+                }
+            }
+        });
+
+        return localizedPass;
+    }
+</script>
+
+</body>
+</html>
+
